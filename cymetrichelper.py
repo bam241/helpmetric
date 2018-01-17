@@ -8,8 +8,8 @@ from cymetric import timeseries as tm
 def InvFrac(file, facility, nucs1=[''], nucs2=[''], factor1=1, factor2=1):
     db = cym.dbopen(file)
     ev = cym.Evaluator(db=db, write=False)
-    df1 = tm.inventories(ev, facilities=facility, nucs=nucs_1)
-    df2 = tm.inventories(ev, facilities=facility, nucs=nucs_2)
+    df1 = tm.inventories(ev, facilities=facility, nucs=nucs1)
+    df2 = tm.inventories(ev, facilities=facility, nucs=nucs2)
     df_r = df2
     df_r[df_r.columns[1]] = (df2[df2.columns[1]] / factor2) / \
         (df1[df1.columns[1]] / factor1 + df2[df2.columns[1]] / factor2)
