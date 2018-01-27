@@ -27,7 +27,7 @@ def TransFrac(file, rec=[''], send=[''], nucs1=[''], nucs2=[''], factor1=1, fact
     return df_r
 
 
-def MakeFlowGraph(file):
+def MakeFlowGraph(file, label=''):
     db_ = cym.dbopen(file)
     ev_ = cym.Evaluator(db=db_, write=False)
-    return cgr.flow_graph(ev_)
+    return cgr.flow_graph(evaler=ev_, label=label)
