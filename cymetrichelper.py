@@ -13,7 +13,7 @@ def Trans(file, rec=(), send=(), nucs_=(), coms=()):
     return df1
 
 
-def InvFrac(file, facility, nucs1=[''], nucs2=[''], factor1=1, factor2=1):
+def InvFrac(file, facility, nucs1=(), nucs2=(), factor1=1, factor2=1):
     db = cym.dbopen(file)
     ev = cym.Evaluator(db=db, write=False)
     df1 = tm.inventories(ev, facilities=facility, nucs=nucs1)
@@ -24,9 +24,13 @@ def InvFrac(file, facility, nucs1=[''], nucs2=[''], factor1=1, factor2=1):
     return df_r
 
 
-def TransFrac(file, rec=[''], send=[''], nucs1=[''], nucs2=[''], factor1=1, factor2=1):
-    db = cym.dbopen(file)
-    ev = cym.Evaluator(db=db, write=False)
+def TransFrac(file='', ev=None, rec=(), send=(), nucs1=(), nucs2=(), factor1=1, factor2=1):
+    if(file != ''):
+        db = cym.dbopen(file)
+        ev = cym.Evaluator(db=db, write=False)
+    elif (ev == None):
+        print('Need either a Filename or a cymetric evaler....')
+        return None
     df1 = tm.transactions(ev, receivers=rec, senders=send, nucs=nucs1)
     df2 = tm.transactions(ev, receivers=rec, senders=send, nucs=nucs2)
     df_r = df2
@@ -72,6 +76,16 @@ def maxperdiv(df, division=12):
             dfn.loc[int(row['Time'] / division)] = int(row['Time'] / 12)
             dfn.loc[int(row['Time'] / division)]['Mass'] = val
             val = 0
+    return dfn
+
+
+def cumul(df):
+    dfn = pd.DataFrame(columns=['Time', 'Mass'])
+    val = 0
+    for index, row in df.iterrows():
+            val += row['Mass']
+            dfn.loc[row['Time']] = row['Time']
+            dfn.loc[row['Time']]['Mass'] = val
     return dfn
 
 

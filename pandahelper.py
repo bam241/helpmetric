@@ -15,7 +15,7 @@ def RenameTS(df, x_label, y_label):
 
 
 def MakePlot(dfs, x_name, y_name, figsize = (20,12), mk = 'x', mk_z=14,
-        linestyle='-', mfc='none', loc='best'):
+        linestyle='-', color=None, mfc='none', loc='best', lw=2.0):
     SMALL_SIZE = 40
     MEDIUM_SIZE = SMALL_SIZE+2
     BIGGER_SIZE = MEDIUM_SIZE +2
@@ -31,12 +31,12 @@ def MakePlot(dfs, x_name, y_name, figsize = (20,12), mk = 'x', mk_z=14,
     
     
     e1x = dfs[0][0].plot(x=x_name, y=dfs[0][1],
-                      marker=mk, markersize=mk_z, linestyle=linestyle,
-                      mfc=mfc, figsize=figsize)
-    for df in dfs[1:]:
+                      marker=mk, markersize=mk_z, linestyle=linestyle[0],
+                      mfc=mfc, color=color[0], linewidth=lw, figsize=figsize)
+    for i, df in enumerate(dfs[1:]):
         df[0].plot(x=x_name, y=df[1],
-                      marker=mk, markersize=mk_z, linestyle=linestyle,
-                      mfc=mfc, figsize=figsize, ax=e1x)
+                      marker=mk, markersize=mk_z, linestyle=linestyle[i+1],
+                      mfc=mfc,color=color[i+1], linewidth=lw, figsize=figsize, ax=e1x)
 
     plt.xlabel(x_name)
     plt.ylabel(y_name)
